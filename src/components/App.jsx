@@ -1,16 +1,19 @@
 // console.log(exampleVideoData);
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
+
 class App extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      currentVideo: exampleVideoData[0],
-      videoQueue: exampleVideoData
+      currentVideo: props.exampleVideoData[0],
+      videoQueue: props.exampleVideoData
     };
   }
 
+  
 
   // componentDidMount() {
   //   this.setState() {

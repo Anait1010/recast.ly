@@ -164,4 +164,4 @@ var exampleVideoData = [{
   }
 }];
 
-// export default exampleVideoData;
+export default exampleVideoData;
