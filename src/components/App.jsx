@@ -1,6 +1,8 @@
 // console.log(exampleVideoData);
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
+import searchYouTube from '../lib/searchYouTube.js';
+import YOUTUBE_API_KEY from '../config/youtube.js';
 
 class App extends React.Component {
 
@@ -8,8 +10,11 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      currentVideo: props.exampleVideoData[0],
-      videoQueue: props.exampleVideoData
+      currentVideo: {
+        id: {},
+        snippet: {}
+      },
+      videoQueue: []
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -23,12 +28,23 @@ class App extends React.Component {
     });
   }
 
-  // componentDidMount() {
-  //   this.setState() {
-  //     currentVideo: exampleVideoData[0],
-  //     videoQueue: exampleVideoData
-  //   }
-  // }
+  componentDidMount() {
+    this.props.searchYouTube({
+      query: 'hedgehogs',
+      max: 5,
+      key: YOUTUBE_API_KEY
+    }, this.initialVideos.bind(this));
+  }
+
+  initialVideos(videos) {
+    // console.log(videos, videos[0]);
+    this.setState({
+      currentVideo: videos[0],
+      videoQueue: videos
+    });
+  }
+  
+
 
   render() {  
     return (<div>

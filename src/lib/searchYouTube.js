@@ -12,7 +12,7 @@ var searchYouTube = (options, callback, errorCB) => {
     },
     success: function(data) {
       console.log('data from youtube', data.items);
-      return callback(data.items);
+      callback(data.items);
     },
     error: errorCB || function(error) {
       console.log('Failed to load YouTube videos', error);
