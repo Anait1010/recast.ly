@@ -10,6 +10,7 @@ var searchYouTube = (options, callback, errorCB) => {
       videoEmbeddable: true,
       type: 'video',
     },
+    contentType: 'application/json',
     success: function(data) {
       console.log('data from youtube', data.items);
       callback(data.items);

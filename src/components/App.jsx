@@ -1,8 +1,9 @@
-// console.log(exampleVideoData);
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
+import Search from './Search.js';
 import searchYouTube from '../lib/searchYouTube.js';
 import YOUTUBE_API_KEY from '../config/youtube.js';
+
 
 class App extends React.Component {
 
@@ -14,43 +15,58 @@ class App extends React.Component {
         id: {},
         snippet: {}
       },
-      videoQueue: []
+      videoQueue: [],
+      value: ''
     };
 
     this.handleClick = this.handleClick.bind(this);
-  }
+  } 
 
   handleClick(video) {
-    console.log('Clicked!', video);
-
     this.setState({
       currentVideo: video
     });
   }
 
   componentDidMount() {
+    var callback = this.initialVideos.bind(this);
     this.props.searchYouTube({
       query: 'hedgehogs',
       max: 5,
       key: YOUTUBE_API_KEY
-    }, this.initialVideos.bind(this));
+    }, callback);
   }
 
   initialVideos(videos) {
-    // console.log(videos, videos[0]);
     this.setState({
       currentVideo: videos[0],
       videoQueue: videos
     });
   }
-  
+
+  handleInput(event) {
+    
+    this.setState({
+      value: event.target.value
+    });
+   
+    var callback = this.initialVideos.bind(this);
+    _.debounce(() => {
+      this.props.searchYouTube({
+        query: event.target.value,
+        max: 5,
+        key: YOUTUBE_API_KEY
+      }, callback);
+    }, 500);
+  }
+ 
 
 
   render() {  
     return (<div>
       <nav className="navbar">
         <div className="col-md-6 offset-md-3">
-          <div><h5><em>search</em> view goes here</h5></div>
+          <Search handleInput={this.handleInput.bind(this)} value={this.state.value}/>
         </div>
       </nav>
       <div className="row">
